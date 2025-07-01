@@ -63,6 +63,7 @@ export default function PhotoFilesystemView(props){
 
     return(
         <div className="filesystem-field" style={{height: '100%'}}>
+            <h1>Обзор фото</h1>
             <form onSubmit={submitHandler}>
                 <div className='UI-container'>
                     <div className="mb-3">

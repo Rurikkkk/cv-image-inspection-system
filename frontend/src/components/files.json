@@ -2,7 +2,7 @@
     {
         "source": "file1.png",
         "markuped": "file1_mr.png",
-        "alerts": ["alert1", "alert2"]
+        "alerts": ["alert1", "alert2", "alert3"]
     },
     {
         "source": "file2.png",
