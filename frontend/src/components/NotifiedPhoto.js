@@ -22,35 +22,35 @@ export default function NotifiedPhoto(props) {
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(checked));
   }, [checked, storageKey]);
-
-  return (
-    <tr key={props.file.source}>
-      <td>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          {props.file.source}
-          <StatusCircle isChecked={checked} />
-        </div>
-      </td>
-      <td>
-        <button
-          className='btn btn-secondary'
-          onClick={() => {
-            props.clickHandler();
-            setChecked(true);
-          }}
-        >
-          Просмотр
-        </button>
-      </td>
-      <td>
-        <h6> Возможные предметы: </h6>
-        <p>{props.file.alerts.join(', ')}</p>
-      </td>
-      <td>
-        <span>
-            Статус: {checked ? 'просмотрено' : 'не просмотрено'}
-        </span>
-      </td>
-    </tr>
-  );
+  
+    return (
+      <tr key={props.file.source}>
+        <td>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            {props.file.source}
+            <StatusCircle isChecked={checked} />
+          </div>
+        </td>
+        <td>
+          <button
+            className='btn btn-secondary'
+            onClick={() => {
+              props.clickHandler();
+              setChecked(true);
+            }}
+          >
+            Просмотр
+          </button>
+        </td>
+        <td>
+          <h6> Возможные предметы: </h6>
+          <p>{props.file.alerts.join(', ')}</p>
+        </td>
+        <td>
+          <span>
+              Статус: {checked ? 'просмотрено' : 'не просмотрено'}
+          </span>
+        </td>
+      </tr>
+    );
 }

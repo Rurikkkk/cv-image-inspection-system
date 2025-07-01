@@ -16,7 +16,6 @@ export default function NotifedPhotosView(props){
                 const response = await fetch('http://localhost:5001/images', {method: "GET"});
                 if (!response.ok){
                     setData(extraData);
-                    console.log(extraData);
                     throw new Error ('Ошибка загрузки');
                 }
                 else{
@@ -29,14 +28,19 @@ export default function NotifedPhotosView(props){
             }
         }
         fetchData();
-    },[]);
+    }, []);
+
+    const pureData = data.filter((x)=>(x.alerts[0]));
+    console.log(pureData);
+  
     return(
         <div className="alerts-field">
             <h1>Фото с меткой "Предупреждение"</h1>
             <table className='table table-dark table-striped'>
                 <tbody>
-                    {data.map((file) => (
-                        <NotifiedPhoto checked={false} setChecked={()=>{}} file={file} clickHandler={()=>{setPath(file.markuped); imageRef.current.focus()}}></NotifiedPhoto>
+                    {
+                        pureData.map((file) => (
+                        <NotifiedPhoto key={file.source} checked={false} file={file} clickHandler={()=>{setPath(file.markuped); imageRef.current.focus()}}></NotifiedPhoto>
                     ))}
                 </tbody>
             </table>
