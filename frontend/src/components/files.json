@@ -1,0 +1,12 @@
+[
+    {
+        "source": "file1.png",
+        "markuped": "file1_mr.png",
+        "alerts": ["alert1", "alert2"]
+    },
+    {
+        "source": "file2.png",
+        "markuped": "file2_mr.png",
+        "alerts": ["alert2", "alert3"]
+    }
+]
