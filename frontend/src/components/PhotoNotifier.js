@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import extraData from './files.json'
+import config from './config.json'
 import NotifiedPhoto from "./NotifiedPhoto";
 export default function NotifedPhotosView(props){
     const isLoaded = useRef(false);
@@ -39,7 +40,7 @@ export default function NotifedPhotosView(props){
                     ))}
                 </tbody>
             </table>
-            <img style={{opacity: imagePath === 0 ? 0 : 1}} src={'./' + imagePath} ref={imageRef} alt={'./' + imagePath}></img>
+            <img style={{opacity: imagePath === 0 ? 0 : 1}} src={config["filepathPrefix"] + imagePath} ref={imageRef} alt={config["filepathPrefix"] + imagePath}></img>
         </div>
     )
 }

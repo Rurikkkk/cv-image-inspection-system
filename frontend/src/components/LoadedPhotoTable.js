@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import extraData from './files.json'
+import config from './config.json'
 import { useEffect, useRef, useState } from 'react';
 export default function PhotoFilesystemView(props){
     const [error, setError] = useState(0);
@@ -100,7 +101,7 @@ export default function PhotoFilesystemView(props){
                     ))}
                 </tbody>
             </table>
-            <img style={{opacity: imagePath === 0 ? 0 : 1}} src={'./' + imagePath} ref={imageRef} alt={'./' + imagePath}></img>
+            <img style={{opacity: imagePath === 0 ? 0 : 1}} src={config["filepathPrefix"] + imagePath} ref={imageRef} alt={config["filepathPrefix"] + imagePath}></img>
         </div>
     )
 }
