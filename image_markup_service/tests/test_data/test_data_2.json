@@ -1,8 +1,0 @@
-[
-    {
-        "source": "test3.png",
-        "alerts": [
-            {"name": "alertA", "rect": [30, 30, 120, 120]}
-        ]
-    }
-]
