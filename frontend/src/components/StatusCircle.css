@@ -1,0 +1,15 @@
+.status-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: gray; /* по умолчанию */
+  transition: background-color 0.3s ease;
+}
+
+.status-circle.unchecked {
+  background-color: #ffc800; /* зелёный цвет для онлайн */
+}
+
+.status-circle.checked {
+  background-color: #9e9e9e; /* серый для оффлайн */
+}
