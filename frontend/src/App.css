@@ -1,0 +1,59 @@
+/* Общие стили */
+.App {
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Темная тема */
+.App.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.App.dark-theme .navbar {
+  background-color: #1e1e1e;
+}
+
+.App.dark-theme .table-dark {
+  background-color: #1e1e1e;
+}
+
+.App.dark-theme .table-striped tbody tr:nth-of-type(odd) {
+  background-color: #2a2a2a;
+}
+
+.App.dark-theme .form-control {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.App.dark-theme .photo-load-submit {
+  background-color: #007bff;
+}
+
+/* Светлая тема */
+.App.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.App.light-theme .navbar {
+  background-color: #f8f9fa;
+}
+
+.App.light-theme .table-dark {
+  background-color: #ffffff;
+}
+
+.App.light-theme .table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+
+.App.light-theme .form-control {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.App.light-theme .photo-load-submit {
+  background-color: #0d6efd;
+}
