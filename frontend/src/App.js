@@ -1,63 +1,40 @@
-import { useState } from 'react';
-import NotifedPhotosView from './components/PhotoNotifier';
-import PhotoFilesystemView from './components/LoadedPhotoTable';
-import './App.css'; // Убедитесь, что CSS импортирован
+import React from 'react';
+import { AppBar, Toolbar, Typography, IconButton, Box, Container, Paper, Tabs, Tab } from '@mui/material';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { useThemeMode } from './theme/CustomThemeProvider';
+import Gallery from './components/Gallery/Gallery';
+import AlertsGallery from './components/Alerts/AlertsGallery';
 
 function App() {
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [isDarkMode, setIsDarkMode] = useState(true); // Начальная тема - темная
-
-  // Функция для переключения темы
-  const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev);
-  };
+  const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
+  const { mode, toggleTheme } = useThemeMode();
 
   return (
-    <div className={`App ${isDarkMode ? 'dark-theme' : 'light-theme'}`} style={{ height: '100%' }}>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <button className="nav-link navbar-brand" onClick={() => setCurrentPageIndex(0)}>
-            <img src="./logo.jpg" alt="logo" width="50" height="50"></img>
-          </button>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <button
-                  className={`nav-link ${currentPageIndex === 0 ? 'active' : ''}`}
-                  aria-current="page"
-                  onClick={() => setCurrentPageIndex(0)}
-                >
-                  Обзор
-                </button>
-              </li>
-              <li className="nav-item">
-                <button
-                  className={`nav-link ${currentPageIndex === 1 ? 'active' : ''}`}
-                  aria-current="page"
-                  onClick={() => setCurrentPageIndex(1)}
-                >
-                  Предупреждения
-                </button>
-              </li>
-            </ul>
-          </div>
-          {/* Кнопка переключения темы */}
-          <button className="btn btn-secondary ms-auto" onClick={toggleTheme}>
-            {isDarkMode ? 'Светлая тема' : 'Темная тема'}
-          </button>
-        </div>
-      </nav>
-      <div className="main-view" style={{ height: '100%' }}>
-        {currentPageIndex === 1 ? (
-          <NotifedPhotosView isDarkMode={isDarkMode} />
-        ) : (
-          <PhotoFilesystemView isDarkMode={isDarkMode} />
-        )}
-      </div>
-    </div>
+    <Box sx={{ minHeight: '100dvh', bgcolor: 'background.default', color: 'text.primary', display: 'flex', flexDirection: 'column' }}>
+      <AppBar position="static" color="primary" elevation={2} sx={{ borderRadius: 4, mt: 2, mx: 'auto', maxWidth: 1400, width: '100%' }}>
+        <Toolbar>
+          <IconButton edge="start" color="inherit" onClick={() => setCurrentPageIndex(0)} sx={{ mr: 2 }}>
+            <img src="./logo.jpg" alt="logo" width={44} height={44} style={{ borderRadius: '8px' }} />
+          </IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700 }}>
+            CV Image Inspection
+          </Typography>
+          <Tabs value={currentPageIndex} onChange={(_, v) => setCurrentPageIndex(v)} textColor="inherit" indicatorColor="secondary" sx={{ minHeight: 48 }}>
+            <Tab label="Галерея" sx={{ fontWeight: 500, minWidth: 100 }} />
+            <Tab label="Предупреждения" sx={{ fontWeight: 500, minWidth: 140 }} />
+          </Tabs>
+          <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 2 }}>
+            {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth={false} sx={{ mt: 4, mb: 4, flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        <Paper elevation={3} sx={{ borderRadius: 4, p: { xs: 1, sm: 3 }, flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          {currentPageIndex === 1 ? <AlertsGallery /> : <Gallery />}
+        </Paper>
+      </Container>
+    </Box>
   );
 }
 
