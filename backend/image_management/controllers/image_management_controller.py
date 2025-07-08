@@ -31,18 +31,25 @@ class ImageManagementController:
             alerts = []
         markuped_filename = f"markuped_{source_filename}"
         FileSystem.save_markuped_image(markuped_image, markuped_filename)
-        FileSystem.update_images_json(
-            {
-                "source": source_filename,
-                "markuped": markuped_filename,
-                "alerts": alerts,
-            }
-        )
+        try:
+            FileSystem.update_images_json(
+                {
+                    "source": source_filename,
+                    "markuped": markuped_filename,
+                    "alerts": alerts,
+                }
+            )
+        except Exception as e:
+            raise Exception(e)
         return {
             "source": source_filename,
             "markuped": markuped_filename,
             "alerts": alerts,
         }
+    
+    @staticmethod
+    def handle_delete(filename: str):
+        FileSystem.delete_note(filename)
 
     @staticmethod
     def get_images_data():

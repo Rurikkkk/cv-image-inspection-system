@@ -20,8 +20,26 @@ def upload_image():
         result = ImageManagementController.handle_upload(file)
         return jsonify(result), 200
     except Exception as e:
+        if str(e) == 'File is already exists':
+            return jsonify({"error": str(e)}), 400
         return jsonify({"error": str(e)}), 500
+    
+@image_management_bp.route("/delete", methods=["POST"])
+def delete_image():
+    """
+    Удаляет изображение по имени, указанному в теле запроса.
+    """
+    data = request.get_json()
+    if not data or "filename" not in data:
+        return jsonify({"error": "Missing 'filename' in request body"}), 400
 
+    filename = data["filename"]
+
+    try:
+        result = ImageManagementController.handle_delete(filename)
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @image_management_bp.route("/images", methods=["GET"])
 def get_images():

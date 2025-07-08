@@ -11,7 +11,7 @@ class Config:
     # URL'ы
     IMAGE_MANAGEMENT_URL_PREFIX = "/api/images"
     IMAGE_MARKUP_URL_PREFIX = "/api/markup"
-    MARKUP_SERVICE_URL = "http://localhost:5000/api/markup/process"
+    MARKUP_SERVICE_URL = "http://localhost:5001/api/markup/process"
     # Прочие параметры
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 

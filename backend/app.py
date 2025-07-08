@@ -15,6 +15,13 @@ app.register_blueprint(
 app.register_blueprint(markup_bp, url_prefix=config.IMAGE_MARKUP_URL_PREFIX)
 
 
+@app.route("/data/download/<path:filename>")
+def download_data(filename):
+    """
+    Скачивает файл
+    """
+    return send_from_directory(config.MARKUPED_IMAGES_DIR, 'markuped_'+filename, as_attachment=True)
+
 @app.route("/data/<path:filename>")
 def serve_data(filename):
     """
@@ -26,4 +33,4 @@ def serve_data(filename):
 if __name__ == "__main__":
     os.makedirs(config.SRC_IMAGES_DIR, exist_ok=True)
     os.makedirs(config.MARKUPED_IMAGES_DIR, exist_ok=True)
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5001, debug=False)

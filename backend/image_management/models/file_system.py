@@ -6,11 +6,19 @@ SRC_IMAGES_DIR = config.SRC_IMAGES_DIR
 MARKUPED_IMAGES_DIR = config.MARKUPED_IMAGES_DIR
 IMAGES_JSON = config.IMAGES_JSON
 
-
 class FileSystem:
     """
     Утилиты для работы с файловой системой изображений и json-метаданными.
     """
+
+    @staticmethod
+    def load_data_from_json():
+        if not os.path.exists(IMAGES_JSON):
+            data = []
+        else:
+            with open(IMAGES_JSON, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        return data
 
     @staticmethod
     def save_source_image(source_file, filename: str) -> str:
@@ -38,12 +46,25 @@ class FileSystem:
         """
         Добавляет запись об изображении в общий JSON.
         """
-        if not os.path.exists(IMAGES_JSON):
-            data = []
-        else:
-            with open(IMAGES_JSON, "r", encoding="utf-8") as f:
-                data = json.load(f)
+        data = FileSystem.load_data_from_json()
+        if any(note['source'] == record['source'] for note in data):
+            raise Exception('File is already exists')
         data.append(record)
+        with open(IMAGES_JSON, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    @staticmethod
+    def delete_note(filename: str):
+        DELETE_SRC_filepath = os.path.join(SRC_IMAGES_DIR, filename)
+        markuped_filename = 'markuped_'+filename
+        DELETE_MARKUP_filepath = os.path.join(MARKUPED_IMAGES_DIR, markuped_filename)
+        os.remove(DELETE_SRC_filepath)
+        os.remove(DELETE_MARKUP_filepath)
+        data = FileSystem.load_data_from_json()
+        for note in data:
+            if note["source"] == filename:
+                data.remove(note)
+                break
         with open(IMAGES_JSON, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 

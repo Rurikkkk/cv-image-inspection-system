@@ -1,7 +1,10 @@
 # requirements.txt для объединённого микросервиса
 flask
-# Добавьте сюда остальные зависимости, например:
-# opencv-python
-# numpy
-# torch
-# ...
+flask-cors
+opencv-python
+numpy
+torch
+requests
+ultralytics
+opencv-python
+
