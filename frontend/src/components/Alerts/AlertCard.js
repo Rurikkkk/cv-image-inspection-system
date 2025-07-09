@@ -23,13 +23,14 @@ export default function AlertCard({ file, onOpenMarkup }) {
 
     return (
         <Card sx={{ borderRadius: 4, boxShadow: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems:'center' }}>
-            <Box sx={{ p: 0, minHeight: 180, maxWidth: 200, bgcolor: 'background.paper', borderTopLeftRadius: 4, borderTopRightRadius: 4, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
+            <Box sx={{ p: 0, maxHeight: 180, bgcolor: 'background.paper', borderTopLeftRadius: 4, borderTopRightRadius: 4, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                
+            </Box>
+            <img
                     src={file.markupedUrl}
                     alt={file.source}
                     style={{ width: '100%', height: 180, objectFit: 'cover', borderTopLeftRadius: 4, borderTopRightRadius: 4, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
                 />
-            </Box>
             <CardContent sx={{ flexGrow: 1, pb: 1, alignItems: 'center' }}>
                 <Typography variant="subtitle1" fontWeight={600} textAlign={'center'} gutterBottom noWrap>{cardTitle}</Typography>
                 <Grid container spacing={1} sx={{ maxWidth: 200, justifyContent: { xs: 'space-evenly', lexWrap: 'wrap'  } }}>
