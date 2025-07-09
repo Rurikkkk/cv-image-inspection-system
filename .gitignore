@@ -1,31 +1,43 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
+# Node
+frontend/node_modules/
+frontend/build/
+
+# Python
+backend/venv/
+backend/.venv/
+backend/env/
+backend/__pycache__/
+backend/.pytest_cache/
 *.pyc
 *.pyd
 *.pyo
 
-# Virtual environment
-venv/
-.venv/
-env/
-
-# Editor/IDE specific files
+# VSCode/IDE
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
 
-# Database files
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Env
+.env
+.env.*
+
+# Jupyter
+*.ipynb_checkpoints/
+
+# Data/uploads
+/uploads/
+data/
+.trash
+
+# Database/model files
 *.sqlite3
 *.db
 *.pt
-
-# Log files
-*.log
-
-# Uploaded media files (if applicable)
-/uploads/
-data/
-
-# Configuration files with sensitive information (e.g., API keys, secrets)
-.env

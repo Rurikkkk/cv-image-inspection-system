@@ -27,51 +27,51 @@ export default function Gallery() {
     };
 
     const handleUpload = async (e) => {
-    e.preventDefault();
-    if (!selectedFile) {
-        setUploadError('Файл не выбран');
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-
-    try {
-        const response = await fetch(`${config.backendUrl}/api/images/upload`, {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (!response.ok) {
-            // Обрабатываем JSON только если сервер его вернул
-            let errorMessage = 'Ошибка загрузки';
-
-            // Проверяем статус ответа
-            if (response.status === 400) {
-                const errData = await response.json();
-                errorMessage = errData.error === 'File is already exists' ? `Файл с именем ${selectedFile.name} уже существует` : 'Некорректный запрос' ;
-            } else {
-                const errData = await response.json();
-                errorMessage = errData.error || errorMessage;
-            }
-
-            setUploadError(errorMessage);
-            return; // Не выбрасываем ошибку, просто завершаем функцию
+        e.preventDefault();
+        if (!selectedFile) {
+            setUploadError('Файл не выбран');
+            return;
         }
 
-        const result = await response.json();
-        setUploadError('');
-        setData(prev => [...prev, result]);
+        const formData = new FormData();
+        formData.append('file', selectedFile);
 
-    } catch (error) {
-        console.error("Network error:", error);
-        setUploadError('Сервер недоступен или произошла сетевая ошибка');
-    }
+        try {
+            const response = await fetch(`${config.backendUrl}/api/images/upload`, {
+                method: 'POST',
+                body: formData,
+            });
 
-    // Сброс полей
-    if (fileRef.current) fileRef.current.value = '';
-    setFileName('');
-    setSelectedFile(null);
+            if (!response.ok) {
+                // Обрабатываем JSON только если сервер его вернул
+                let errorMessage = 'Ошибка загрузки';
+
+                // Проверяем статус ответа
+                if (response.status === 400) {
+                    const errData = await response.json();
+                    errorMessage = errData.error === 'File is already exists' ? `Файл с именем ${selectedFile.name} уже существует` : 'Некорректный запрос';
+                } else {
+                    const errData = await response.json();
+                    errorMessage = errData.error || errorMessage;
+                }
+
+                setUploadError(errorMessage);
+                return; // Не выбрасываем ошибку, просто завершаем функцию
+            }
+
+            const result = await response.json();
+            setUploadError('');
+            setData(prev => [...prev, result]);
+
+        } catch (error) {
+            console.error("Network error:", error);
+            setUploadError('Сервер недоступен или произошла сетевая ошибка');
+        }
+
+        // Сброс полей
+        if (fileRef.current) fileRef.current.value = '';
+        setFileName('');
+        setSelectedFile(null);
     };
 
     // Удаление изображения
@@ -93,7 +93,7 @@ export default function Gallery() {
 
             // Локальное удаление изображения из интерфейса
             setData(prev => prev.filter(img => img.source !== filename));
-            
+
 
         } catch (error) {
             console.error("Ошибка сети при удалении:", error);
@@ -117,12 +117,9 @@ export default function Gallery() {
                 {data.map((file) => (
                     <Grid item xs={12} sm={6} md={4} key={file.source} display="flex">
                         <GalleryCard
-                            file={{
-                                ...file,
-                                srcUrl: `${config.backendUrl}/data/src_images/${file.source}`
-                            }}
-                            onOpenMarkup={() => window.open(`${config.backendUrl}/data/markuped_images/${file.markuped}`, '_blank')}
+                            file={{ ...file, srcUrl: `${config.backendUrl}/data/src_images/${file.source}` }}
                             onDelete={() => handleDeleteImage(file.source)}
+                            showDelete={true}
                         />
                     </Grid>
                 ))}

@@ -11,5 +11,7 @@ RUN npm ci
 # Копируем исходники
 COPY . .
 
+RUN chmod -R 755 /app
+
 # Запуск dev сервера
 CMD ["npm", "start"]

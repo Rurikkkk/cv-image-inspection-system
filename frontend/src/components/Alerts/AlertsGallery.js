@@ -19,7 +19,12 @@ export default function AlertsGallery() {
             <Grid container spacing={3} alignItems="stretch">
                 {pureData.map((file) => (
                     <Grid item xs={12} sm={6} md={4} key={file.source} display="flex">
-                        <AlertCard file={{ ...file, markupedUrl: `${config.backendUrl}/data/markuped_images/${file.markuped}` }} onOpenMarkup={() => window.open(`${config.backendUrl}/data/markuped_images/${file.markuped}`, '_blank')} />
+                        <AlertCard
+                            file={{ ...file, markupedUrl: `${config.backendUrl}/data/markuped_images/${file.markuped}` }}
+                            onOpenMarkup={() => window.open(`${config.backendUrl}/data/markuped_images/${file.markuped}`, '_blank')}
+                            showAlerts={true}
+                            showViewed={true}
+                        />
                     </Grid>
                 ))}
             </Grid>

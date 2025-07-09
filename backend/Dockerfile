@@ -15,10 +15,12 @@ RUN apt-get update && \
 
 # Установка Python-зависимостей
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Копируем исходники
 COPY . .
+
+RUN chmod -R 755 /app
 
 # Запуск приложения
 CMD ["python", "app.py"]
