@@ -13,29 +13,55 @@
 
 ## Быстрый старт
 
-### 1. Backend
 
-```bash
-cd backend
-pip install -r requirements.txt
-python app.py
-```
+### Режим разработки
 
-- Сервер будет доступен на http://localhost:5000
-- Все настройки путей и параметров — в `config.py`
+Для запуска приложения в режиме разработки на Unix-системах:
+1) Склонируйте репозиторий
+    ```sh
+    git clone https://github.com/Rurikkkk/cv-image-inspection-system
+    ```
+2) Перейдите в директорию
+    ```sh
+    cd cv-image-inspection-system
+    ```
+3) Перейдите в ветку docker-setup
+    ```sh
+    git checkout docker-setup
+    ```
+4) Выполните скрипт launch.sh
+    ```sh
+    chmod +x launch.sh
+    ./launch.sh
+    ```
+5) По завершении выполните команды
+    ```sh
+    lsof -i :5001 // найдите PID процесса с именем Python
+    lsof -i :3000 // найдит PID процесса с именем node
+    kill <python_PID>
+    kill <node_PID>
+    ```
 
-### 2. Frontend
+Режим разработчика позволяет вносить изменения в коде и сразу видеть результат
 
-```bash
-cd frontend
-npm install
-npm start
-```
+### Запуск проекта
 
-- Приложение будет доступно на http://localhost:3000
-- Для работы требуется запущенный backend
-
----
+1) Склонируйте репозиторий
+    ```sh
+    git clone https://github.com/Rurikkkk/cv-image-inspection-system
+    ```
+2) Перейдите в директорию
+    ```sh
+    cd cv-image-inspection-system
+    ```
+3) Перейдите в ветку docker-setup
+    ```sh
+    git checkout docker-setup
+    ```
+4) Выполните сборку (*Внимание:* требуется установленный Docker (https://www.docker.com/))
+    ```sh
+    docker-compose up --build
+    ```
 
 ## Основные возможности
 
