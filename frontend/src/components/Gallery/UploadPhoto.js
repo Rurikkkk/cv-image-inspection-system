@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, CircularProgress } from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
+import PropTypes from 'prop-types';
 
-export default function UploadPhoto({ onUpload, error, fileRef, fileName, setFileName, onFileChange }) {
+export default function UploadPhoto({ onUpload, error, fileRef, fileName, setFileName, onFileChange, uploading }) {
     const showFileName = Boolean(fileName) && fileName !== '0' && fileName !== 0;
     const showError = Boolean(error) && error !== 0 && error !== '0';
     return (
@@ -20,6 +21,7 @@ export default function UploadPhoto({ onUpload, error, fileRef, fileName, setFil
                 startIcon={<UploadIcon />}
                 sx={{ borderRadius: 4 }}
                 onClick={() => fileRef.current && fileRef.current.click()}
+                disabled={uploading}
             >
                 Выбрать фото
             </Button>
@@ -33,11 +35,22 @@ export default function UploadPhoto({ onUpload, error, fileRef, fileName, setFil
                 color="primary"
                 sx={{ borderRadius: 4 }}
                 type="submit"
-                disabled={!showFileName}
+                disabled={!showFileName || uploading}
             >
                 Загрузить
             </Button>
+            {uploading && <CircularProgress size={22} color="primary" sx={{ ml: 2 }} />}
             {showError && <Typography color="error">{error}</Typography>}
         </Stack>
     );
 }
+
+UploadPhoto.propTypes = {
+    onUpload: PropTypes.func.isRequired,
+    error: PropTypes.string,
+    fileRef: PropTypes.object.isRequired,
+    fileName: PropTypes.string,
+    setFileName: PropTypes.func,
+    onFileChange: PropTypes.func.isRequired,
+    uploading: PropTypes.bool,
+};

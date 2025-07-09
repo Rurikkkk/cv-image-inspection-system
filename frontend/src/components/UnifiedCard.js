@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardContent, CardActions, Button, Typography, Box, Grid, Chip } from '@mui/material';
 
 /**
@@ -88,3 +89,13 @@ export default function UnifiedCard({ file, onOpen, onDelete, showAlerts = false
         </Card>
     );
 }
+
+UnifiedCard.propTypes = {
+    file: PropTypes.object.isRequired,
+    onOpen: PropTypes.func,
+    onDelete: PropTypes.func,
+    showAlerts: PropTypes.bool,
+    showDelete: PropTypes.bool,
+    showViewed: PropTypes.bool,
+    viewed: PropTypes.bool,
+};

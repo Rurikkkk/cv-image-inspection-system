@@ -3,6 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
 
 export default function PhotoPreviewer({ open, onClose, src, alt }) {
     return (
@@ -20,3 +21,10 @@ export default function PhotoPreviewer({ open, onClose, src, alt }) {
         </Dialog>
     );
 }
+
+PhotoPreviewer.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    src: PropTypes.string,
+    alt: PropTypes.string,
+};

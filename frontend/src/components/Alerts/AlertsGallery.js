@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, CircularProgress, Alert } from '@mui/material';
 import AlertCard from './AlertCard';
 import config from '../../config';
+import { fetchAlertsImages } from '../../api/galleryApi';
 
 export default function AlertsGallery() {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     useEffect(() => {
-        fetch(`${config.backendUrl}/api/images/images`)
-            .then(r => r.ok ? r.json() : [])
+        setLoading(true);
+        setError('');
+        fetchAlertsImages()
             .then(setData)
-            .catch(() => setData([]));
+            .catch(e => setError(e.message))
+            .finally(() => setLoading(false));
     }, []);
-    const pureData = data.filter((x) => x.alerts && x.alerts.length > 0 && x.alerts[0]);
 
     return (
         <Box sx={{ flexGrow: 1, width: '100%' }}>
             <Typography variant="h5" fontWeight={700} mb={3}>Фото с предупреждениями</Typography>
+            {loading && <CircularProgress sx={{ display: 'block', mx: 'auto', my: 4 }} />}
+            {error && <Alert severity="error">{error}</Alert>}
             <Grid container spacing={3} alignItems="stretch">
-                {pureData.map((file) => (
+                {data.map((file) => (
                     <Grid item xs={12} sm={6} md={4} key={file.source} display="flex">
                         <AlertCard
                             file={{ ...file, markupedUrl: `${config.backendUrl}/data/markuped_images/${file.markuped}` }}

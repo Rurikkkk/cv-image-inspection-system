@@ -1,25 +1,29 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, CircularProgress, Alert } from '@mui/material';
 import UploadPhoto from './UploadPhoto';
 import GalleryCard from './GalleryCard';
 import config from '../../config';
+import useGallery from '../../hooks/useGallery';
 
 export default function Gallery() {
-    const [data, setData] = useState([]);
-    const [uploadError, setUploadError] = useState('');
     const fileRef = useRef();
     const [fileName, setFileName] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const {
+        images,
+        loading,
+        error,
+        loadImages,
+        uploadImage,
+        uploadError,
+        deleteImage,
+        uploading, // добавлено
+    } = useGallery();
 
-    // Загрузка списка изображений
     useEffect(() => {
-        fetch(`${config.backendUrl}/api/images/images`)
-            .then(r => r.ok ? r.json() : [])
-            .then(setData)
-            .catch(() => setData([]));
-    }, []);
+        loadImages();
+    }, [loadImages]);
 
-    // Загрузка нового файла
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setFileName(file ? file.name : '');
@@ -28,76 +32,19 @@ export default function Gallery() {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-        if (!selectedFile) {
-            setUploadError('Файл не выбран');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-
+        if (!selectedFile) return;
         try {
-            const response = await fetch(`${config.backendUrl}/api/images/upload`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                // Обрабатываем JSON только если сервер его вернул
-                let errorMessage = 'Ошибка загрузки';
-
-                // Проверяем статус ответа
-                if (response.status === 400) {
-                    const errData = await response.json();
-                    errorMessage = errData.error === 'File is already exists' ? `Файл с именем ${selectedFile.name} уже существует` : 'Некорректный запрос';
-                } else {
-                    const errData = await response.json();
-                    errorMessage = errData.error || errorMessage;
-                }
-
-                setUploadError(errorMessage);
-                return; // Не выбрасываем ошибку, просто завершаем функцию
-            }
-
-            const result = await response.json();
-            setUploadError('');
-            setData(prev => [...prev, result]);
-
-        } catch (error) {
-            console.error("Network error:", error);
-            setUploadError('Сервер недоступен или произошла сетевая ошибка');
-        }
-
-        // Сброс полей
-        if (fileRef.current) fileRef.current.value = '';
-        setFileName('');
-        setSelectedFile(null);
+            await uploadImage(selectedFile);
+            if (fileRef.current) fileRef.current.value = '';
+            setFileName('');
+            setSelectedFile(null);
+        } catch { }
     };
 
-    // Удаление изображения
     const handleDeleteImage = async (filename) => {
         try {
-            const response = await fetch(`${config.backendUrl}/api/images/delete`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ filename })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Ошибка при удалении:", errorData.error);
-                return;
-            }
-
-            // Локальное удаление изображения из интерфейса
-            setData(prev => prev.filter(img => img.source !== filename));
-
-
-        } catch (error) {
-            console.error("Ошибка сети при удалении:", error);
-        }
+            await deleteImage(filename);
+        } catch { }
     };
 
     return (
@@ -111,10 +58,13 @@ export default function Gallery() {
                     fileName={fileName}
                     setFileName={setFileName}
                     onFileChange={handleFileChange}
+                    uploading={uploading} // передаём проп
                 />
             </form>
+            {loading && <CircularProgress sx={{ display: 'block', mx: 'auto', my: 4 }} />}
+            {error && <Alert severity="error">{error}</Alert>}
             <Grid container spacing={3} alignItems="stretch">
-                {data.map((file) => (
+                {images.map((file) => (
                     <Grid item xs={12} sm={6} md={4} key={file.source} display="flex">
                         <GalleryCard
                             file={{ ...file, srcUrl: `${config.backendUrl}/data/src_images/${file.source}` }}
