@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardActions, Button, Typography, Box, Grid, Chip } from '@mui/material';
+import config from '../../config.js';
 
 export default function AlertCard({ file, onOpenMarkup }) {
     const storageKey = `status-${file.source}`;
@@ -50,9 +51,19 @@ export default function AlertCard({ file, onOpenMarkup }) {
             </CardContent>
             <CardActions sx={{ pt: 0, pb: 2, px: 2, justifyContent: 'center' }}>
                 <Button size="small" variant="contained" sx={{ borderRadius: 4, width: '100%' }} onClick={() => { onOpenMarkup(); setChecked(true); }}>
-                    Открыть
+                    Открыть разметку
                 </Button>
                 <Chip label={checked ? 'просмотрено' : 'не просмотрено'} color={checked ? 'success' : 'warning'} variant="filled" sx={{ borderRadius: 4, ml: 1 }} />
+            </CardActions>
+             <CardActions sx={{ pt: 0, pb: 2, px: 2, justifyContent: 'center' }}>
+                <a href={`${config.backendUrl}/data/download/${file.source}`} download>
+                <Button
+                    size="small"
+                    sx={{ borderRadius: 4, width: '100%' }}
+                >
+                        Скачать разметку
+                </Button>
+                </a>
             </CardActions>
         </Card>
     );

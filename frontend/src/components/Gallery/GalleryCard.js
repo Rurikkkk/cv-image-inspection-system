@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardContent, CardActions, Button, Typography, Box } from '@mui/material';
-import config from '../../config';
 
 function DeleteImageButton({ filename, onDelete}) {
     const storageKey = `status-${filename}`;
@@ -58,21 +57,9 @@ export default function GalleryCard({ file, onOpenMarkup, onDelete }) {
                     sx={{ borderRadius: 4, width: '100%' }}
                     onClick={onOpenMarkup}
                 >
-                    Открыть разметку
+                    Открыть
                 </Button>
-            </CardActions>
-            <CardActions sx={{ pt: 0, pb: 2, px: 2, justifyContent: 'center' }}>
                 <DeleteImageButton filename={file.source} onDelete={onDelete} />
-            </CardActions>
-            <CardActions sx={{ pt: 0, pb: 2, px: 2, justifyContent: 'center' }}>
-                <a href={`${config.backendUrl}/data/download/${file.source}`} download>
-                <Button
-                    size="small"
-                    sx={{ borderRadius: 4, width: '100%' }}
-                >
-                        Скачать разметку
-                </Button>
-                </a>
             </CardActions>
         </Card>
     );
