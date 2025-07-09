@@ -10,6 +10,7 @@ export default function Gallery() {
     const fileRef = useRef();
     const [fileName, setFileName] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [loaded, setLoaded] = useState(false);
 
     // Загрузка списка изображений
     useEffect(() => {
@@ -27,9 +28,11 @@ export default function Gallery() {
     };
 
     const handleUpload = async (e) => {
+    setLoaded(true);
     e.preventDefault();
     if (!selectedFile) {
         setUploadError('Файл не выбран');
+        setLoaded(false);
         return;
     }
 
@@ -56,6 +59,7 @@ export default function Gallery() {
             }
 
             setUploadError(errorMessage);
+            setLoaded(false);
             return; // Не выбрасываем ошибку, просто завершаем функцию
         }
 
@@ -72,6 +76,7 @@ export default function Gallery() {
     if (fileRef.current) fileRef.current.value = '';
     setFileName('');
     setSelectedFile(null);
+    setLoaded(false);
     };
 
     // Удаление изображения
@@ -111,6 +116,7 @@ export default function Gallery() {
                     fileName={fileName}
                     setFileName={setFileName}
                     onFileChange={handleFileChange}
+                    loaded={loaded}
                 />
             </form>
             <Grid container spacing={3} alignItems="stretch">

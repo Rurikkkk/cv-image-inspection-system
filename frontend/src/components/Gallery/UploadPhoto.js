@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, CircularProgress } from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload';
 
-export default function UploadPhoto({ onUpload, error, fileRef, fileName, setFileName, onFileChange }) {
+export default function UploadPhoto({ loaded, error, fileRef, fileName, onFileChange }) {
     const showFileName = Boolean(fileName) && fileName !== '0' && fileName !== 0;
     const showError = Boolean(error) && error !== 0 && error !== '0';
     return (
@@ -37,6 +37,9 @@ export default function UploadPhoto({ onUpload, error, fileRef, fileName, setFil
             >
                 Загрузить
             </Button>
+            <div>
+                {loaded ? <CircularProgress size={20} color="inherit" /> : null}
+            </div>
             {showError && <Typography color="error">{error}</Typography>}
         </Stack>
     );
