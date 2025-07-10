@@ -1,115 +1,85 @@
 # CV Image Inspection System
 
-![Логотип](frontend/public/logo.jpg)
+Комплексная система для классификации и разметки объектов на изображениях с помощью компьютерного зрения (YOLO). Проект реализован на микросервисной архитектуре и включает три сервиса:
 
----
+- **Frontend** — пользовательский веб-интерфейс на React для загрузки и просмотра изображений и списка объектов на них.
+- **Image Management Service** — backend-сервис на Flask для хранения, учёта и маршрутизации изображений между фронтендом и сервисом разметки.
+- **Image Markup Service** — backend-сервис на Flask для разметки изображений с помощью модели YOLO и формирования списка объектов.
 
-## Описание
+## Основные возможности
 
-**CV Image Inspection System** — комплексная система для загрузки, разметки, автоматического анализа и управления изображениями с помощью современных методов компьютерного зрения (YOLO и др.).
-
-- Веб-интерфейс ([frontend/](./frontend/README.md)) для загрузки, просмотра, фильтрации и разметки изображений
-- Серверная часть ([backend/](./backend/README.md)) с REST API, интеграцией с ML и хранением
-- Docker-окружение для быстрого старта ([docker-compose.yml](./docker-compose.yml))
-- Модульная архитектура, расширяемость, чистый код
-
----
+- Загрузка и удаление изображений
+- Просмотр галереи и отдельных изображений
+- Автоматическая разметка (YOLO)
+- Скачивание размеченных изображений
+- Отслеживание статуса просмотра
+- Современный UI ([Material UI](https://mui.com/))
 
 ## Структура репозитория
 
 ```
 cv-image-inspection-system/
-├── backend/         # Серверная часть (FastAPI/Flask, обработка, API, ML)
-│   ├── app.py
-│   ├── config.py
-│   ├── requirements.txt
-│   ├── image_management/
-│   ├── image_markup/
-│   └── yolo_model/
-├── frontend/        # Веб-интерфейс (React, MUI)
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   └── Dockerfile
-├── docker-compose.yml
-├── .gitignore
+├── src/
+│   ├── backend/
+│   │   ├── data/                       # Директория изображений и метаданных
+│   │   │   ├── src_images/
+│   │   │   ├── markuped_images/
+│   │   │   └── images.json
+│   │   ├── image_management_service/   # Сервис управления изображениями (Flask)
+│   │   │   └── ...
+│   │   ├── image_markup_service/       # Сервис разметки изображений (Flask)
+│   │   │   ├── yolo_model/             # Директория для файла модели YOLO
+│   │   │   └── ...
+│   │   └── config.py                   # Конфигурационный файл backend-микросервисов
+│   └── frontend/                       # Фронтенд-сервис (React)
+│       └── ...
 ├── .editorconfig
-├── CODEOWNERS
+├── .gitignore
 ├── CONTRIBUTING.md
-├── SECURITY.md
+├── docker-compose.yaml
 ├── LICENSE
-├── README.md
+└── README.md
 ```
 
-- [backend/README.md](./backend/README.md) — подробности по серверу
-- [frontend/README.md](./frontend/README.md) — подробности по клиенту
-- [CONTRIBUTING.md](./CONTRIBUTING.md) — как внести вклад
-- [SECURITY.md](./SECURITY.md) — политика безопасности
-- [CODEOWNERS](./CODEOWNERS) — владельцы кода
+## Архитектура взаимодействия микросервисов
 
----
-
-## Быстрый старт
-
-### Через Docker Compose
-```sh
-git clone https://github.com/your-org/cv-image-inspection-system.git
-cd cv-image-inspection-system
-docker-compose up --build
 ```
-- Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend API: [http://localhost:8000](http://localhost:8000)
-
-### Локально (разработка)
-#### Backend
-```sh
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python app.py
+[User] ⇄ [Frontend (React)] ⇄ [Image Management Service (Flask)] ⇄ [Image Markup Service (Flask + YOLO)]
 ```
 
-#### Frontend
-```sh
-cd frontend
-npm install
-npm start
-```
+- Frontend взаимодействует только с сервисом управления изображениями.
+- Сервис управления хранит изображения, JSON-метаданные и взаимодействует с сервисом разметки.
+- Сервис разметки использует модель YOLO для выделения объектов и формирования списка объектов.
 
----
+## Быстрый старт (Docker Compose)
 
-## Основные возможности
-- Загрузка и удаление изображений
-- Просмотр галереи и предпросмотр фото
-- Автоматическая разметка и алерты (YOLO)
-- Скачивание размеченных изображений
-- Отслеживание статуса просмотра
-- Современный UI ([Material UI](https://mui.com/))
+1. Клонируйте репозиторий:
+   ```sh
+   git clone https://github.com/Rurikkkk/cv-image-inspection-system
+   ```
+2. Перейдите в корневую папку проекта:
+   ```sh
+   cd cv-image-inspection-system
+   ```
+3. Поместите файл модели YOLO в папку `src/backend/image_markup_service/yolo_model/` и переименуйте его в `yolo.pt`.
+4. Соберите и запустите все сервисы:
+   ```sh
+   docker-compose up --build
+   ```
+4. Фронтенд будет доступен на http://localhost:80
 
----
+## Документация
 
-## Архитектура
-- **Frontend:** React, Material UI, модульные компоненты, современный UX ([frontend/README.md](./frontend/README.md))
-- **Backend:** Python (FastAPI/Flask), REST API, интеграция с ML ([backend/README.md](./backend/README.md))
-- **ML:** YOLO, поддержка кастомных моделей ([backend/yolo_model/](./backend/yolo_model/))
-- **Docker:** изолированное окружение, быстрый деплой ([docker-compose.yml](./docker-compose.yml))
-
----
-
-## Как внести вклад
-1. Форкните репозиторий
-2. Создайте ветку feature/your-feature
-3. Оформите PR с описанием изменений
-4. Следуйте code style ([frontend/.eslintrc.json](./frontend/.eslintrc.json), [backend/.flake8](./backend/.flake8))
-
----
-
-## Лицензия
-[MIT License](./LICENSE)
-
----
+- Подробности по [Frontend](./src/frontend/README.md)
+- Подробности по [Image Management Service](./src/backend/image_management_service/README.md)
+- Подробности по [Image Markup Service](./src/backend/image_markup_service/README.md)
 
 ## Контакты
-- [issues](https://github.com/your-org/cv-image-inspection-system/issues)
-- maintainer: your.email@example.com
+
+Если у вас есть вопросы, предложения или вы хотите присоединиться к разработке:
+- Открывайте Issue или Pull request на GitHub
+- Обращайтесь к владельцам репозитория: [@Rurikkkk](https://github.com/Rurikkkk), [@Syricoff](https://github.com/Syricoff), [@Kr-EA](https://github.com/Kr-EA)
+
+## Лицензия
+
+Проект распространяется по лицензии [MIT](./LICENSE).

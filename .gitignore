@@ -1,43 +1,74 @@
-# Node
-frontend/node_modules/
-frontend/build/
-
 # Python
-backend/venv/
-backend/.venv/
-backend/env/
-backend/__pycache__/
-backend/.pytest_cache/
-*.pyc
-*.pyd
+__pycache__/
+*.py[cod]
 *.pyo
-
-# VSCode/IDE
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+*.egg
 *.log
-
-# Env
-.env
-.env.*
-
-# Jupyter
-*.ipynb_checkpoints/
-
-# Data/uploads
-/uploads/
-data/
-.trash
-
-# Database/model files
 *.sqlite3
 *.db
+*.env
+.env*
+.venv/
+venv/
+ENV/
+
+# PIP cache
+pip-wheel-metadata/
+__pypackages__/
+
+# Flask
+instance/
+*.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node.js / React
+node_modules/
+build/
+dist/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Frontend build artifacts
+src/frontend/build/
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# System
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# VSCode
+.vscode/
+
+# Model files
 *.pt
+*.h5
+*.ckpt
+*.onnx
+
+# Images directory
+data/
+
+# General temp files
+*.tmp
+*.bak
+~$*
+
+# Test coverage
+coverage/
+.coverage
