@@ -13,4 +13,4 @@ app.register_blueprint(markup_bp, url_prefix=config.MARKUP_SERVICE_URL_PREFIX)
 if __name__ == "__main__":
     os.makedirs(config.SRC_IMAGES_DIR, exist_ok=True)
     os.makedirs(config.MARKUPED_IMAGES_DIR, exist_ok=True)
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=int(config.MARKUP_SERVICE_URL_PORT), debug=False)
