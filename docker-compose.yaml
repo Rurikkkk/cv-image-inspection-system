@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  image_management_service:
+    build:
+      context: ./src/backend
+      dockerfile: image_management_service/Dockerfile
+    container_name: image_management_service
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./src/backend/data:/app/data
+    depends_on:
+      - image_markup_service
+    restart: unless-stopped
+
+  image_markup_service:
+    build:
+      context: ./src/backend
+      dockerfile: image_markup_service/Dockerfile
+    container_name: image_markup_service
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./src/backend/image_markup_service/yolo_model:/app/yolo_model
+      - ./src/backend/data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build: ./src/frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - image_management_service
+    restart: unless-stopped
